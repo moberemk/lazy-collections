@@ -1,0 +1,15 @@
+{
+    "name": "moberemk/lazy-collections",
+    "description": "An implementation of various collection types as lazily-executed collections",
+    "type": "library",
+    "require-dev": {
+        "phpunit/phpunit": "^4.7"
+    },
+    "authors": [
+        {
+            "name": "Mark Oberemk",
+            "email": "me@moberemk.com"
+        }
+    ],
+    "require": {}
+}

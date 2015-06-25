@@ -116,21 +116,35 @@ abstract class LazyCollection implements Collection {
      * @see Collection::every
      */
     public function every(callable $callback) {
-        throw new NotImplementedException();
+        foreach ($this->getIterator() as $key => $value) {
+            if(!call_user_func($callback, $value)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /**
      * @see Collection::some
      */
     public function some(callable $callback) {
-        throw new NotImplementedException();
+        foreach ($this->getIterator() as $key => $value) {
+            if(call_user_func($callback, $value)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
      * @see Collection::reduce
      */
     public function reduce(callable $callback, $accumulator = null) {
-        throw new NotImplementedException();
+        foreach ($this->getIterator() as $key => $value) {
+            $accumulator = call_user_func($callback, $value, $accumulator);
+        }
+
+        return $accumulator;
     }
 
     /**

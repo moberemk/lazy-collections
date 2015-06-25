@@ -27,29 +27,32 @@ class VectorTest extends \PHPUnit_Framework_TestCase {
 
     public function testFilter() {
         $this->assertEquals([4, 2], $this->collection->filter([$this, 'isEvenInteger'])->execute());
+        $this->assertEquals([8, 4], $this->collection->filter([$this, 'isEvenInteger'])->map([$this, 'doubleInteger'])->execute());
     }
 
     public function testReject() {
-        $this->assertEquals([5, 3, 1], $this->collection->filter([$this, 'isEvenInteger'])->execute());
+        $this->assertEquals([5, 3, 1], $this->collection->reject([$this, 'isEvenInteger'])->execute());
+        $this->assertEquals([10, 3, 1], $this->collection->reject([$this, 'isEvenInteger'])->map([$this, 'doubleInteger'])->execute())
     }
 
     public function testTake() {
-        $this->markTestIncomplete();
+        $this->assertEquals([4, 5, 3], $this->collection->take(3)->execute());
     }
 
     public function testSort() {
-        $this->markTestIncomplete();
+        $this->assertEquals([1, 2, 3, 4, 5], $this->collection->sort([$this, 'compareIntegers'])->execute());
+        $this->assertEquals([2, 4, 6, 8, 10], $this->collection->map([$this, 'doubleInteger'])->sort([$this, 'compareIntegers'])->execute());
     }
 
     public function testGroupBy() {
-        $this->markTestIncomplete();
+        $this->assertEquals(['even' => [4, 2], 'odd' => [5, 3, 1]], $this->collection->groupBy([$this, 'integerType']);
+
+        $this->assertEquals(['even' => [6, 4, 2], 'odd' => [5, 3]], $this->collection->map([$this, 'incrementInteger'])->groupBy([$this, 'integerType']));
+
+        $this->assertEquals(['even' => [4, 2]], $this->collection->filter([$this, 'isEvenInteger'])->groupBy([$this, 'integerType']));
     }
 
     public function testFind() {
-        $this->markTestIncomplete();
-    }
-
-    public function testExecute() {
         $this->markTestIncomplete();
     }
 
@@ -58,19 +61,63 @@ class VectorTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testFirst() {
-        $this->markTestIncomplete();
+        $this->assertEquals($this->data[0], $this->collection->first());
+        $this->assertEquals(null, new Vector([]));
     }
 
     public function testEvery() {
-        $this->markTestIncomplete();
+        $this->assertFalse($this->collection->every([$this, 'isEvenInteger']));
+        $this->assertTrue($this->collection->every('is_int'));
     }
 
     public function testSome() {
-        $this->markTestIncomplete();
+        $this->assertTrue($this->collection->some([$this, 'isEvenInteger']));
+        $this->assertTrue($this->collection->some('is_int'));
     }
 
     public function testReduce() {
-        $this->markTestIncomplete();
+        // Validate that it will reduce the collection to a value
+        $this->assertEquals(15, $this->collection->reduce([$this, 'sumIntegers']));
+
+        // Validate that it will reduce a mapped collection
+        $this->assertEquals(30, $this->collection->map([$this, 'doubleInteger'])->reduce([$this, 'sumIntegers']));
+
+        // Validate that it will reduce only a filtered collection
+        $this->assertEquals(6, $this->collection->filter([$this, 'isEvenInteger'])->reduce([$this, 'sumIntegers']));
+    }
+
+    /**
+     * Sum two passed integers
+     * @param  int ...$args An argument list comprised of integers to add together
+     * @return int          The sum of all integers passed to this function
+     */
+    public static function sumIntegers() {
+        $sum = 0;
+
+        foreach (func_get_args() as $value) {
+            $sum += $value;
+        }
+
+        return $sum;
+    }
+
+    /**
+     * Compare two passed integers
+     * @param  int $a The first compared integer
+     * @param  int $b The first compared integer
+     * @return int    A comparison value for the passed integers
+     */
+    public static function compareIntegers($a, $b) {
+        return $a - $b;
+    }
+
+    /**
+     * Determines the type of the passed integer
+     * @param  int    $value The integer to examine
+     * @return string        String 'even' for even integers, 'odd' otherwise
+     */
+    public static function integerType($value) {
+        return $this->isEvenInteger($value) ? 'even' : 'odd';
     }
 
     /**

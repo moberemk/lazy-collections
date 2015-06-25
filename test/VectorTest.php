@@ -37,6 +37,8 @@ class VectorTest extends \PHPUnit_Framework_TestCase {
 
     public function testTake() {
         $this->assertEquals([4, 5, 3], $this->collection->take(3)->execute());
+        $this->assertEquals([5, 3, 1], $this->collection->reject([$this, 'isEvenInteger'])->take(3)->execute());
+        $this->assertEquals([8, 10, 6], $this->collection->map([$this, 'doubleInteger'])->take(3)->execute());
     }
 
     public function testSort() {
@@ -53,7 +55,9 @@ class VectorTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testFind() {
-        $this->markTestIncomplete();
+        $this->assertEquals(2, $this->collection->find(function($value) {
+            return $value === 2;
+        }));
     }
 
     public function testGetIterator() {

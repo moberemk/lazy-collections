@@ -1,9 +1,9 @@
 <?php
 namespace moberemk\LazyCollection;
 
-use \Iterator;
-use \Countable;
-use \JsonSerializable;
+use IteratorAggregate;
+use Countable;
+use JsonSerializable;
 
 interface Collection extends IteratorAggregate, Countable, JsonSerializable {
     /**

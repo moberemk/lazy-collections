@@ -11,5 +11,11 @@
             "email": "me@moberemk.com"
         }
     ],
-    "require": {}
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "moberemk\\LazyCollection\\": "src/",
+            "moberemk\\LazyCollection\\Test\\": "test/"
+        }
+    }
 }

@@ -5,6 +5,8 @@ namespace moberemk\LazyCollection;
 use ArrayIterator;
 use SplFixedArray;
 
+use moberemk\LazyCollection\Exceptions\NotImplementedException;
+
 abstract class LazyCollection implements Collection {
     /**
      * A limit on the number of elements which should be returned when this is executed
@@ -197,8 +199,12 @@ abstract class LazyCollection implements Collection {
         // Iterate over the data running each execution block
         $returned = $this->data;
         foreach ($execution_blocks as $block) {
-            // Check if a block or a sort operation
-            if(is_array($block)) {
+            // Check if a block or a sort operation; need to check if callable first even though
+            // array is more common as callables can also be arrays because PHP
+            if(is_callable($block)) {
+                // Perform a sort operation in-place on the transformed array
+                usort($returned, $block);
+            } else if(is_array($block)) {
                 // Allocate a new array
                 // TODO: investigate tradeoffs of SplFixedArray here given known max size
                 $new_returned = [];
@@ -232,10 +238,13 @@ abstract class LazyCollection implements Collection {
                 }
 
                 $returned = $new_returned;
-            } else {
-                // Perform a sort operation in-place on the transformed array
-                usort($returned, $block);
+
             }
+        }
+
+        // TODO: make this a cleaner, lazier implementation
+        if(count($returned) > $this->limit) {
+            $returned = array_slice($returned, 0, $this->limit);
         }
 
         // Return the transformed data

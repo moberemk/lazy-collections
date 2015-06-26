@@ -1,5 +1,6 @@
 <?php
+namespace moberemk\LazyCollection\Exceptions;
 
-namespace moberemk\Exceptions;
+use \Exception;
 
 class NotImplementedException extends Exception {}

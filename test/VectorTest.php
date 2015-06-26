@@ -32,7 +32,7 @@ class VectorTest extends \PHPUnit_Framework_TestCase {
 
     public function testReject() {
         $this->assertEquals([5, 3, 1], $this->collection->reject([$this, 'isEvenInteger'])->execute());
-        $this->assertEquals([10, 3, 1], $this->collection->reject([$this, 'isEvenInteger'])->map([$this, 'doubleInteger'])->execute())
+        $this->assertEquals([10, 6, 2], $this->collection->reject([$this, 'isEvenInteger'])->map([$this, 'doubleInteger'])->execute());
     }
 
     public function testTake() {
@@ -47,7 +47,7 @@ class VectorTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testGroupBy() {
-        $this->assertEquals(['even' => [4, 2], 'odd' => [5, 3, 1]], $this->collection->groupBy([$this, 'integerType']);
+        $this->assertEquals(['even' => [4, 2], 'odd' => [5, 3, 1]], $this->collection->groupBy([$this, 'integerType']));
 
         $this->assertEquals(['even' => [6, 4, 2], 'odd' => [5, 3]], $this->collection->map([$this, 'incrementInteger'])->groupBy([$this, 'integerType']));
 
@@ -66,7 +66,7 @@ class VectorTest extends \PHPUnit_Framework_TestCase {
 
     public function testFirst() {
         $this->assertEquals($this->data[0], $this->collection->first());
-        $this->assertEquals(null, new Vector([]));
+        $this->assertEquals(null, (new Vector([]))->first());
     }
 
     public function testEvery() {

@@ -121,7 +121,7 @@ class VectorTest extends \PHPUnit_Framework_TestCase {
      * @return string        String 'even' for even integers, 'odd' otherwise
      */
     public static function integerType($value) {
-        return $this->isEvenInteger($value) ? 'even' : 'odd';
+        return self::isEvenInteger($value) ? 'even' : 'odd';
     }
 
     /**

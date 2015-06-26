@@ -85,14 +85,31 @@ abstract class LazyCollection implements Collection {
      * @see Collection::groupBy
      */
     public function groupBy(callable $callback) {
-        throw new NotImplementedException();
+        $returned = [];
+
+        foreach ($this->execute() as $key => $value) {
+            $key = call_user_func($callback, $value);
+
+            if(!isset($returned[$key])) {
+                $returned[$key] = [];
+            }
+
+            $returned[$key][] = $value;
+        }
+
+        return $returned;
     }
 
     /**
      * @see Collection::find
      */
     public function find(callable $callback) {
-        throw new NotImplementedException();
+        foreach ($this->execute() as $key => $value) {
+            if(call_user_func($callback, $value)) {
+                return $value;
+            }
+        }
+        return null;
     }
 
     /**

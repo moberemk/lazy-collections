@@ -2,5 +2,5 @@
 
 namespace moberemk\LazyCollection;
 
-class Vector extends LazyCollection {
+class IteratorWrapper extends LazyCollection {
 }

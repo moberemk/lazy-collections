@@ -1,6 +1,6 @@
 # Core Collection Types
 
-## Vector
+## IteratorWrapper
 
 - Integer keyed
 - Ordered

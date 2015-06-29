@@ -1,9 +1,9 @@
 <?php
 namespace moberemk\LazyCollection\Test;
 
-use moberemk\LazyCollection\Vector;
+use moberemk\LazyCollection\IteratorWrapper;
 
-class VectorTest extends \PHPUnit_Framework_TestCase {
+class IteratorWrapperTest extends \PHPUnit_Framework_TestCase {
     protected $data;
 
     protected $collection;
@@ -11,7 +11,7 @@ class VectorTest extends \PHPUnit_Framework_TestCase {
     public function setUp() {
         $this->data = [4, 5, 3, 1, 2];
 
-        $this->collection = new Vector($this->data);
+        $this->collection = new IteratorWrapper($this->data);
     }
 
     public function testQueueing() {
@@ -61,12 +61,20 @@ class VectorTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testGetIterator() {
-        $this->markTestIncomplete();
+        $count = 0;
+        // Can iterate over the collection and execute will be called implicitly
+        foreach ($this->collection->map([$this, 'doubleInteger']) as $key => $value) {
+            $this->assertNotNull($key);
+            $this->assertEquals($this->doubleInteger($this->data[$key]), $value);
+            $count++;
+        }
+
+        $this->assertEquals(count($this->data), $count);
     }
 
     public function testFirst() {
         $this->assertEquals($this->data[0], $this->collection->first());
-        $this->assertEquals(null, (new Vector([]))->first());
+        $this->assertEquals(null, (new IteratorWrapper([]))->first());
     }
 
     public function testEvery() {

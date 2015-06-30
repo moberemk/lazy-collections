@@ -25,6 +25,16 @@ class IteratorWrapperTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals([9, 11, 7, 3, 5], $collection->execute());
     }
 
+    public function testEach() {
+        $count = 0;
+        $collection = $this->collection->each(function() use (&$count) {
+            $count++;
+        });
+
+        $this->assertEquals($count, count($this->data));
+        $this->assertEquals($this->collection, $collection);
+    }
+
     public function testFilter() {
         $this->assertEquals([4, 2], $this->collection->filter([$this, 'isEvenInteger'])->execute());
         $this->assertEquals([8, 4], $this->collection->filter([$this, 'isEvenInteger'])->map([$this, 'doubleInteger'])->execute());

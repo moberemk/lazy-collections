@@ -51,6 +51,16 @@ abstract class LazyCollection implements Collection {
     }
 
     /**
+     * @see Collection::each
+     */
+    public function each(callable $callback) {
+        foreach($this as $key => $value) {
+            call_user_func($callback, $value);
+        }
+        return $this;
+    }
+
+    /**
      * @see Collection::filter
      */
     public function filter(callable $callback) {

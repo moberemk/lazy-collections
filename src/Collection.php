@@ -25,6 +25,16 @@ interface Collection extends IteratorAggregate, Countable, JsonSerializable {
     public function map(callable $callback);
 
     /**
+     * Iterate over every value in the collection; unlike map, will not modify
+     * the collection based on the returned values. Executes immediately and not
+     * lazily
+     * @param  callable $callback A callback function which should return the new value;
+     *                            the function will be passed the value and the key
+     * @return Collection         The original collection (e.g. this)
+     */
+    public function each(callable $callback);
+
+    /**
      * Filter this collection based on the passed expressions
      * @param  callable  $callback A callback function which is passed the current value
      * @return Collection          A filtered version of this collection's data (e.g. elements for which $filter returned true)

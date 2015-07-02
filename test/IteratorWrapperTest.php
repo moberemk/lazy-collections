@@ -1,7 +1,7 @@
 <?php
-namespace moberemk\LazyCollection\Test;
+namespace LazyCollection\Test;
 
-use moberemk\LazyCollection\IteratorWrapper;
+use LazyCollection\IteratorWrapper;
 
 class IteratorWrapperTest extends \PHPUnit_Framework_TestCase {
     protected $data;

@@ -1,11 +1,11 @@
 <?php
 
-namespace moberemk\LazyCollection;
+namespace LazyCollection;
 
 use ArrayIterator;
 use SplFixedArray;
 
-use moberemk\LazyCollection\Exceptions\NotImplementedException;
+use LazyCollection\Exceptions\NotImplementedException;
 
 abstract class LazyCollection implements Collection {
     /**

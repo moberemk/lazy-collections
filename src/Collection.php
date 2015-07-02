@@ -1,5 +1,5 @@
 <?php
-namespace moberemk\LazyCollection;
+namespace LazyCollection;
 
 use IteratorAggregate;
 use Countable;

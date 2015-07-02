@@ -1,5 +1,5 @@
 <?php
-namespace moberemk\LazyCollection\Exceptions;
+namespace LazyCollection\Exceptions;
 
 use \Exception;
 

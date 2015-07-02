@@ -14,8 +14,8 @@
     "require": {},
     "autoload": {
         "psr-4": {
-            "moberemk\\LazyCollection\\": "src/",
-            "moberemk\\LazyCollection\\Test\\": "test/"
+            "LazyCollection\\": "src/",
+            "LazyCollection\\Test\\": "test/"
         }
     }
 }

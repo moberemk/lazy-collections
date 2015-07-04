@@ -215,7 +215,12 @@ abstract class LazyCollection implements Collection {
 
         // Iterate over the data running each execution block
         $returned = $this->data;
-        foreach ($execution_blocks as $block) {
+
+        // Substracting this count here since the iteration count compares against this value
+        // inside the loop, and it saves on instructions doing only a single substraction here
+        $steps = count($execution_blocks) - 1;
+
+        foreach ($execution_blocks as $iteration => $block) {
             // Check if a block or a sort operation; need to check if callable first even though
             // array is more common as callables can also be arrays because PHP
             if(is_callable($block)) {
@@ -225,6 +230,7 @@ abstract class LazyCollection implements Collection {
                 // Allocate a new array
                 // TODO: investigate tradeoffs of SplFixedArray here given known max size
                 $new_returned = [];
+                $count = 0;
 
                 // Iterate over the data and create the new returned array
                 foreach ($returned as $value) {
@@ -251,16 +257,24 @@ abstract class LazyCollection implements Collection {
                         }
                     }
 
+                    // In the final iteration, break out of the loop early if a take is being performed
+                    if($this->limit !== null && $iteration === $steps) {
+                        $count++;
+
+                        if($count === $this->limit) {
+                            break;
+                        }
+                    }
+
                     $new_returned[] = $value;
                 }
 
                 $returned = $new_returned;
-
             }
         }
 
         // TODO: make this a cleaner, lazier implementation
-        if(count($returned) > $this->limit) {
+        if($this->limit !== null && count($returned) > $this->limit) {
             $returned = array_slice($returned, 0, $this->limit);
         }
 

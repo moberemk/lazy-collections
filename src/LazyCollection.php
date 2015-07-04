@@ -271,7 +271,7 @@ abstract class LazyCollection implements Collection {
                     if($this->limit !== null && $iteration === $steps) {
                         $count++;
 
-                        if($count === $this->limit) {
+                        if($count > $this->limit) {
                             break;
                         }
                     }

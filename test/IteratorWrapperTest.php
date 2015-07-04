@@ -1,7 +1,7 @@
 <?php
-namespace moberemk\LazyCollection\Test;
+namespace LazyCollection\Test;
 
-use moberemk\LazyCollection\IteratorWrapper;
+use LazyCollection\IteratorWrapper;
 
 class IteratorWrapperTest extends \PHPUnit_Framework_TestCase {
     protected $data;
@@ -23,6 +23,16 @@ class IteratorWrapperTest extends \PHPUnit_Framework_TestCase {
         $collection = $this->collection->map([$this, 'doubleInteger'])->map([$this, 'incrementInteger']);
 
         $this->assertEquals([9, 11, 7, 3, 5], $collection->execute());
+    }
+
+    public function testEach() {
+        $count = 0;
+        $collection = $this->collection->each(function() use (&$count) {
+            $count++;
+        });
+
+        $this->assertEquals($count, count($this->data));
+        $this->assertEquals($this->collection, $collection);
     }
 
     public function testFilter() {

@@ -1,6 +1,6 @@
 <?php
 
-namespace moberemk\LazyCollection;
+namespace LazyCollection;
 
 class IteratorWrapper extends LazyCollection {
 }

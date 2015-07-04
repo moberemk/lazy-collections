@@ -1,11 +1,11 @@
 <?php
 
-namespace moberemk\LazyCollection;
+namespace LazyCollection;
 
 use ArrayIterator;
 use SplFixedArray;
 
-use moberemk\LazyCollection\Exceptions\NotImplementedException;
+use LazyCollection\Exceptions\NotImplementedException;
 
 abstract class LazyCollection implements Collection {
     /**
@@ -48,6 +48,16 @@ abstract class LazyCollection implements Collection {
      */
     public function map(callable $callback) {
         return $this->enqueue('map', $callback);
+    }
+
+    /**
+     * @see Collection::each
+     */
+    public function each(callable $callback) {
+        foreach($this as $key => $value) {
+            call_user_func($callback, $value);
+        }
+        return $this;
     }
 
     /**

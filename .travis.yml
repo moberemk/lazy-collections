@@ -7,5 +7,6 @@ php:
     - hhvm
 install: composer install --dev
 script:
-    - phpunit test/ --coverage-clover clover.xml
+    - mkdir -p build/logs
+    - phpunit test/ --coverage-clover build/logs/clover.xml
 after_script: php vendor/bin/coveralls -v

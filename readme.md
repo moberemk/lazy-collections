@@ -1,5 +1,6 @@
-# Core Collection Types
+# Lazy Collections
 ![Travis Build Status](https://travis-ci.org/moberemk/lazy-collections.svg)
+[![Coverage Status](https://coveralls.io/repos/moberemk/lazy-collections/badge.svg)](https://coveralls.io/r/moberemk/lazy-collections)
 
 ## IteratorWrapper
 

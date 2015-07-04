@@ -1,4 +1,5 @@
 # Core Collection Types
+![Travis Build Status](https://travis-ci.org/moberemk/lazy-collections.svg)
 
 ## IteratorWrapper
 

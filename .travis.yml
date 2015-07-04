@@ -1,10 +1,11 @@
 language: php
 php:
-- 5.5
-- 5.6
-- hhvm
+    - 5.4
+    - 5.5
+    - 5.6
+    - 7.0
+    - hhvm
 install: composer install --dev
 script:
-    - mkdir -p build/logs
-    - phpunit test/ --coverage-clover build/logs/clover.xml
+    - phpunit test/ --coverage-clover clover.xml
 after_script: php vendor/bin/coveralls -v

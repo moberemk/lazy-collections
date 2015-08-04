@@ -108,6 +108,12 @@ class IteratorWrapperTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals(6, $this->collection->filter([$this, 'isEvenInteger'])->reduce([$this, 'sumIntegers']));
     }
 
+    public function testToArray() {
+        $returned = $this->collection->toArray();
+        $this->assertInternalType($returned, 'array');
+        $this->assertCount(count($this->data), $returned);
+    }
+
     /**
      * Sum two passed integers
      * @param  int ...$args An argument list comprised of integers to add together

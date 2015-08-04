@@ -176,6 +176,19 @@ abstract class LazyCollection implements Collection {
     }
 
     /**
+     * @see Collection::find
+     */
+    public function find(callable $callback) {
+        $values = $this->filter($callback)->take(1)->execute();
+
+        if(isset($values[0])) {
+            return $values[0];
+        } else {
+            return null;
+        }
+    }
+
+    /**
      * @see Collection::jsonSerialize
      */
     public function jsonSerialize() {

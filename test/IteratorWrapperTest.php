@@ -64,6 +64,16 @@ class IteratorWrapperTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals(['even' => [4, 2]], $this->collection->filter([$this, 'isEvenInteger'])->groupBy([$this, 'integerType']));
     }
 
+    public function find() {
+        $this->assertEquals(2, $this->collection->find(function($value) {
+            return $value === 2;
+        }));
+
+        $this->assertNull($this->collection->find(function($value) {
+            return $value === 'a';
+        }));
+    }
+
     public function testFind() {
         $this->assertEquals(2, $this->collection->find(function($value) {
             return $value === 2;

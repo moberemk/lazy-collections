@@ -110,7 +110,6 @@ class IteratorWrapperTest extends \PHPUnit_Framework_TestCase {
 
     public function testToArray() {
         $returned = $this->collection->toArray();
-        $this->assertInternalType('array', $returned);
         $this->assertCount(count($this->data), $returned);
     }
 

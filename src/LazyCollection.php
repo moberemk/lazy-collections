@@ -291,4 +291,13 @@ abstract class LazyCollection implements Collection {
         // Return the transformed data
         return $returned;
     }
+
+    /**
+     * Returns an array representation of the current collection
+     * @param  boolean $use_keys If the returned array should use the keys defined by the iterator; true by default
+     * @return array An associative array of results
+     */
+    public function toArray() {
+        return $this->execute();
+    }
 }

@@ -60,12 +60,12 @@ class IteratorWrapperTest extends \PHPUnit_Framework_TestCase {
         $grouped = $this->collection->groupBy([$this, 'integerType']);
         $this->assertArrayHasKey('even', $grouped);
         $this->assertArrayHasKey('odd', $grouped);
-        $this->assertEquals([5, 3, 1], $grouped['odd']);
-        $this->assertEquals([4, 2], $grouped['even']);
+        $this->assertEquals([5, 3, 1], iterator_to_array($grouped['odd']));
+        $this->assertEquals([4, 2], iterator_to_array($grouped['even']));
 
         $grouped = $this->collection->filter([$this, 'isEvenInteger'])->groupBy([$this, 'integerType']);
         $this->assertArrayHasKey('even', $grouped);
-        $this->assertEquals([4, 2], $grouped['even']);
+        $this->assertEquals([4, 2], iterator_to_array($grouped['even']));
     }
 
     public function find() {

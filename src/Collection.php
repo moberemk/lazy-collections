@@ -68,7 +68,7 @@ interface Collection extends IteratorAggregate, Countable, JsonSerializable {
      * of the callback function
      * @param  callable $callback A callback function which is passed the current value and should return
      *                            the key this value should be stored by
-     * @return array              An array of collection elements grouped by callback return values
+     * @return array              An array of collection elements grouped by callback return values; each key contains a collection
      */
     public function groupBy(callable $callback);
 

@@ -107,18 +107,10 @@ abstract class LazyCollection implements Collection {
             $returned[$key][] = $value;
         }
 
-        return $returned;
-    }
-
-    /**
-     * @see Collection::find
-     */
-    public function find(callable $callback) {
-        foreach ($this->execute() as $key => $value) {
-            if(call_user_func($callback, $value)) {
-                return $value;
-            }
+        foreach ($returned as $key => $value) {
+            $returned[$key] = new IteratorWrapper(new ArrayIterator($value));
         }
+
         return null;
     }
 

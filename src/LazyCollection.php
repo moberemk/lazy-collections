@@ -111,7 +111,7 @@ abstract class LazyCollection implements Collection {
             $returned[$key] = new IteratorWrapper(new ArrayIterator($value));
         }
 
-        return null;
+        return $returned;
     }
 
     /**

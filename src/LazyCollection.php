@@ -192,7 +192,7 @@ abstract class LazyCollection implements Collection {
      * @see Collection::jsonSerialize
      */
     public function jsonSerialize() {
-        return $this->getIterator();
+        return $this->execute();
     }
 
     /**

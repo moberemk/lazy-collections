@@ -128,14 +128,13 @@ class IteratorWrapperTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testDebugInfo() {
-        $data = $this->collection->map([$this, 'doubleInteger']);
-
-        $debug_info = $this->collection->__debugInfo();
+        $collection = $this->collection->map([$this, 'doubleInteger']);
+        $debug_info = $collection->__debugInfo();
 
         $this->assertArrayHasKey('queue', $debug_info);
         $this->assertArrayHasKey('data', $debug_info);
         $this->assertCount(1, $debug_info['queue']);
-        $this->assertEquals($this->data, $this->collection);
+        $this->assertEquals($this->data, $debug_info['data']);
     }
 
     /**

@@ -2,6 +2,7 @@
 namespace LazyCollection\DatabaseIterators;
 
 use Iterator;
+use LazyCollection\Exceptions\DatabaseException;
 
 class PostgresResultIterator implements Iterator {
     /**
@@ -35,7 +36,7 @@ class PostgresResultIterator implements Iterator {
 
     public function __construct($resource) {
         if(!is_resource($resource) || (is_resource($resource) && get_resource_type($resource) !== self::EXPECTED_RESOURCE_TYPE)) {
-            throw new \Exceptions\DatabaseException('Invalid resource type passed, expected "'.$this->expectedResource.'" and got "'.get_resource_type($resource).'"');
+            throw new DatabaseException('Invalid resource type passed, expected "'.$this->expectedResource.'" and got "'.get_resource_type($resource).'"');
         }
         $this->resource = $resource;
         $this->count = pg_num_rows($this->resource);

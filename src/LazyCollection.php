@@ -1,5 +1,4 @@
 <?php
-
 namespace LazyCollection;
 
 use ArrayIterator;
@@ -304,5 +303,16 @@ abstract class LazyCollection implements Collection {
      */
     public function toArray() {
         return $this->execute();
+    }
+
+    /**
+     * Get a simple representation of this object which can be JSON-encoded
+     * @return array An array containing a simple representation of the contained data and any queued actions
+     */
+    public function __debugInfo() {
+        return [
+            'queue' => $this->queue,
+            'data' => $this->data
+        ];
     }
 }

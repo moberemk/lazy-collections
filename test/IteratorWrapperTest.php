@@ -113,7 +113,7 @@ class IteratorWrapperTest extends \PHPUnit_Framework_TestCase {
 
     public function testReduce() {
         // Validate that it will reduce the collection to a value
-        $this->assertEquals(15, $this->collection->reduce([$this, 'sumIntegers']));
+        $this->assertEquals(15, $this->collection->reduce([$this, 'sumIntegers'], 0));
 
         // Validate that it will reduce a mapped collection
         $this->assertEquals(30, $this->collection->map([$this, 'doubleInteger'])->reduce([$this, 'sumIntegers']));
@@ -144,13 +144,7 @@ class IteratorWrapperTest extends \PHPUnit_Framework_TestCase {
      * @return int    The sum of both integers passed to this function
      */
     public static function sumIntegers($a, $b) {
-        $sum = 0;
-
-        foreach (func_get_args() as $value) {
-            $sum += $value;
-        }
-
-        return $sum;
+        return $a + $b;
     }
 
     /**

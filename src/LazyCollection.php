@@ -54,7 +54,7 @@ abstract class LazyCollection implements Collection {
      */
     public function each(callable $callback) {
         foreach($this as $key => $value) {
-            call_user_func($callback, $value);
+            call_user_func($callback, $value, $key);
         }
         return $this;
     }
@@ -161,7 +161,7 @@ abstract class LazyCollection implements Collection {
      */
     public function reduce(callable $callback, $accumulator = null) {
         foreach ($this->getIterator() as $key => $value) {
-            $accumulator = call_user_func($callback, $value, $accumulator);
+            $accumulator = call_user_func($callback, $accumulator, $value, $key);
         }
 
         return $accumulator;
@@ -247,11 +247,11 @@ abstract class LazyCollection implements Collection {
                 $count = 0;
 
                 // Iterate over the data and create the new returned array
-                foreach ($returned as $value) {
+                foreach ($returned as $key => $value) {
                     // Iterate over each method in the execution block
                     // and perform the given action
                     foreach ($block as $action) {
-                        $result = call_user_func($action[1], $value);
+                        $result = call_user_func($action[1], $value, $key);
 
                         // Perform the required action(if any)
                         switch ($action[0]) {

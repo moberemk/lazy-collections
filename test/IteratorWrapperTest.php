@@ -139,10 +139,11 @@ class IteratorWrapperTest extends \PHPUnit_Framework_TestCase {
 
     /**
      * Sum two passed integers
-     * @param  int ...$args An argument list comprised of integers to add together
-     * @return int          The sum of all integers passed to this function
+     * @param  int $a An integer value
+     * @param  int $b An integer value
+     * @return int    The sum of both integers passed to this function
      */
-    public static function sumIntegers() {
+    public static function sumIntegers($a, $b) {
         $sum = 0;
 
         foreach (func_get_args() as $value) {

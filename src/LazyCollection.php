@@ -97,7 +97,7 @@ abstract class LazyCollection implements Collection {
         $returned = [];
 
         foreach ($this->execute() as $key => $value) {
-            $key = call_user_func($callback, $value);
+            $key = call_user_func($callback, $value, $key);
 
             if(!isset($returned[$key])) {
                 $returned[$key] = [];
@@ -137,7 +137,7 @@ abstract class LazyCollection implements Collection {
      */
     public function every(callable $callback) {
         foreach ($this->getIterator() as $key => $value) {
-            if(!call_user_func($callback, $value)) {
+            if(!call_user_func($callback, $value, $key)) {
                 return false;
             }
         }
@@ -149,7 +149,7 @@ abstract class LazyCollection implements Collection {
      */
     public function some(callable $callback) {
         foreach ($this->getIterator() as $key => $value) {
-            if(call_user_func($callback, $value)) {
+            if(call_user_func($callback, $value, $key)) {
                 return true;
             }
         }

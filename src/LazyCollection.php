@@ -114,6 +114,23 @@ abstract class LazyCollection implements Collection {
     }
 
     /**
+     * @see Collection::groupBy
+     */
+    public function indexBy(callable $callback) {
+        $returned = [];
+
+        foreach ($this->execute() as $key => $value) {
+            $returned[call_user_func($callback, $value, $key)] = $value;
+        }
+
+        foreach ($returned as $key => $value) {
+            $returned[$key] = $value;
+        }
+
+        return $returned;
+    }
+
+    /**
      * @see Collection::getIterator
      */
     public function getIterator() {

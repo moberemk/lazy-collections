@@ -68,6 +68,14 @@ class IteratorWrapperTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals([4, 2], iterator_to_array($grouped['even']));
     }
 
+    public function testIndexBy() {
+        $grouped = $this->collection->indexBy([$this, 'doubleInteger']);
+
+        foreach ($grouped as $key => $value) {
+            $this->assertEquals($key, $value * 2);
+        }
+    }
+
     public function find() {
         $this->assertEquals(2, $this->collection->find(function($value) {
             return $value === 2;
@@ -103,12 +111,12 @@ class IteratorWrapperTest extends \PHPUnit_Framework_TestCase {
 
     public function testEvery() {
         $this->assertFalse($this->collection->every([$this, 'isEvenInteger']));
-        $this->assertTrue($this->collection->every('is_int'));
+        $this->assertTrue($this->collection->every([$this, 'isInteger']));
     }
 
     public function testSome() {
         $this->assertTrue($this->collection->some([$this, 'isEvenInteger']));
-        $this->assertTrue($this->collection->some('is_int'));
+        $this->assertTrue($this->collection->some([$this, 'isInteger']));
     }
 
     public function testReduce() {
@@ -191,5 +199,14 @@ class IteratorWrapperTest extends \PHPUnit_Framework_TestCase {
      */
     public static function isEvenInteger($value) {
         return $value % 2 === 0;
+    }
+
+    /**
+     * Check if the passed value is an integer
+     * @param  mixed  $value Some kind of value
+     * @return boolean       True if an integer was passed in, false otherwise
+     */
+    public static function isInteger($value) {
+        return is_int($value);
     }
 }

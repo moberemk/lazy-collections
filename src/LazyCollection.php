@@ -97,7 +97,7 @@ abstract class LazyCollection implements Collection {
         $returned = [];
 
         foreach ($this->execute() as $key => $value) {
-            $key = call_user_func($callback, $value);
+            $key = call_user_func($callback, $value, $key);
 
             if(!isset($returned[$key])) {
                 $returned[$key] = [];
@@ -108,6 +108,23 @@ abstract class LazyCollection implements Collection {
 
         foreach ($returned as $key => $value) {
             $returned[$key] = new IteratorWrapper(new ArrayIterator($value));
+        }
+
+        return $returned;
+    }
+
+    /**
+     * @see Collection::groupBy
+     */
+    public function indexBy(callable $callback) {
+        $returned = [];
+
+        foreach ($this->execute() as $key => $value) {
+            $returned[call_user_func($callback, $value, $key)] = $value;
+        }
+
+        foreach ($returned as $key => $value) {
+            $returned[$key] = $value;
         }
 
         return $returned;
@@ -137,7 +154,7 @@ abstract class LazyCollection implements Collection {
      */
     public function every(callable $callback) {
         foreach ($this->getIterator() as $key => $value) {
-            if(!call_user_func($callback, $value)) {
+            if(!call_user_func($callback, $value, $key)) {
                 return false;
             }
         }
@@ -149,7 +166,7 @@ abstract class LazyCollection implements Collection {
      */
     public function some(callable $callback) {
         foreach ($this->getIterator() as $key => $value) {
-            if(call_user_func($callback, $value)) {
+            if(call_user_func($callback, $value, $key)) {
                 return true;
             }
         }

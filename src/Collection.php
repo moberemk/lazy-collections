@@ -73,6 +73,15 @@ interface Collection extends IteratorAggregate, Countable, JsonSerializable {
     public function groupBy(callable $callback);
 
     /**
+     * Executes the current method queue and then maps the collection based on the return value
+     * of the callback function
+     * @param  callable $callback A callback function which is passed the current value and key and
+     *                            should return the key this value should be stored by
+     * @return array              An associative array of collection elements keyed by callback return values
+     */
+    public function indexBy(callable $callback);
+
+    /**
      * Executes the current method queue and passes the resulting collection through the callback
      * function and returns the first value for which that function returns true
      * @param  callable $callback A callback function which is passed the current value and key and

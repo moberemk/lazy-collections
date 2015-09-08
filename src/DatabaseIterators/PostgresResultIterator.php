@@ -2,9 +2,11 @@
 namespace LazyCollection\DatabaseIterators;
 
 use Iterator;
+use Countable;
+
 use LazyCollection\Exceptions\DatabaseException;
 
-class PostgresResultIterator implements Iterator {
+class PostgresResultIterator implements Iterator, Countable {
     /**
      * A reference to the query resource in use
      * @var Resource

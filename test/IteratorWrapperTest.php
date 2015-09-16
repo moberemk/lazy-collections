@@ -23,6 +23,9 @@ class IteratorWrapperTest extends \PHPUnit_Framework_TestCase {
         $collection = $this->collection->map([$this, 'doubleInteger'])->map([$this, 'incrementInteger']);
 
         $this->assertEquals([9, 11, 7, 3, 5], $collection->execute());
+
+        // Validate that the chain is executed the same way consistently
+        $this->assertEquals([9, 11, 7, 3, 5], $collection->execute());
     }
 
     public function testEach() {

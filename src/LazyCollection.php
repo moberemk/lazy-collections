@@ -21,6 +21,12 @@ abstract class LazyCollection implements Collection {
     protected $queue = [];
 
     /**
+     * A variable representing the execution chain for this collection;
+     * @var null
+     */
+    protected $executedValue = null;
+
+    /**
      * @see Collection::__construct
      */
     public function __construct($data, $queue = [], $limit = null) {
@@ -37,9 +43,17 @@ abstract class LazyCollection implements Collection {
      * @return this               Returns itself for chaining
      */
     protected function enqueue($method, callable $callback) {
-        $queue = $this->queue;
-        $queue[] = [$method, $callback];
-        return new static($this->data, $queue, $this->limit);
+        $enqueued = [$method, $callback];
+
+        if($this->executedValue !== null) {
+            // If this chain has been executed, then create a new object with only one chained method
+            return new static($this->executedValue, [$enqueued], $this->limit);
+        } else {
+            // Otherwise extend the chain and continue
+            $queue = $this->queue;
+            $queue[] = $enqueued;
+            return new static($this->data, $queue, $this->limit);
+        }
     }
 
     /**
@@ -80,7 +94,13 @@ abstract class LazyCollection implements Collection {
      * @see Collection::take
      */
     public function take($limit = 1) {
-        return new static($this->data, $this->queue, $limit);
+        if($this->executedValue !== null) {
+            // If this chain has been executed, then create a new object with no chained method
+            return new static($this->executedValue, [], $limit);
+        } else {
+            // Otherwise keep the chain and modify the limit
+            return new static($this->data, $this->queue, $limit);
+        }
     }
 
     /**
@@ -215,6 +235,11 @@ abstract class LazyCollection implements Collection {
      * @see Collection::execute
      */
     public function execute() {
+        // If a cached value is available, run that
+        if($this->executedValue !== null) {
+            return $this->executedValue;
+        }
+
         // Group queued methods into execution blocks
         $execution_blocks = [];
         $current_block = [];
@@ -308,6 +333,8 @@ abstract class LazyCollection implements Collection {
         if($this->limit !== null && count($returned) > $this->limit) {
             $returned = array_slice($returned, 0, $this->limit);
         }
+
+        $this->executedValue = $returned;
 
         // Return the transformed data
         return $returned;

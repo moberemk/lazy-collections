@@ -97,6 +97,13 @@ interface Collection extends IteratorAggregate, Countable, JsonSerializable {
     public function execute();
 
     /**
+     * Execute and clear the current method queue and return a new collection
+     * of the concrete data set produced
+     * @return array The concrete array which the execution chain produced
+     */
+    public function run();
+
+    /**
      * Returns an array representation of the current collection
      * @param  boolean $use_keys If the returned array should use the keys defined by the iterator; true by default
      * @return array An associative array of results

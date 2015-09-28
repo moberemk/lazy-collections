@@ -341,6 +341,13 @@ abstract class LazyCollection implements Collection {
     }
 
     /**
+     * @see Collection::run
+     */
+    public function run() {
+        return new IteratorWrapper($this->execute());
+    }
+
+    /**
      * Returns an array representation of the current collection
      * @param  boolean $use_keys If the returned array should use the keys defined by the iterator; true by default
      * @return array An associative array of results
